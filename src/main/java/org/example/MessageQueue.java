@@ -43,7 +43,8 @@ public class MessageQueue {
 
     private void notifySubscribers(String topic, String message) {
         for (Subscriber subscriber : subscribersByTopic.get(topic)) {
-            subscriber.receiveMessage(topic, message);
+            Thread thread = new Thread(() -> subscriber.receiveMessage(topic, message));
+            thread.start();
         }
     }
 }
