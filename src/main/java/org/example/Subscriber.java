@@ -7,7 +7,7 @@ public class Subscriber {
         this.name = name;
     }
 
-    public void receiveMessage(String message){
-        System.out.println("Subscriber " + name + " received message : " + message);
+    public void receiveMessage(String topic, String message){
+        System.out.println("Subscriber " + name + " received message : " + message + " on topic " +topic);
     }
 }

@@ -13,11 +13,11 @@ public class Main {
         Subscriber subscriber2 = new Subscriber("Subscriber 2");
 
         // Add subscribers to the message queue
-        messageQueue.addSubscriber(subscriber1);
-        messageQueue.addSubscriber(subscriber2);
+        messageQueue.addSubscriber("topic1", subscriber1);
+        messageQueue.addSubscriber("topic2", subscriber2);
 
         // Publish messages
-        publisher.publish("Hello, world!");
-        publisher.publish("This is a test message.");
+        publisher.publish("topic1", "Hello");
+        publisher.publish("topic2", "this is a message");
     }
 }

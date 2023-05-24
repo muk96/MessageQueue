@@ -7,7 +7,7 @@ public class Publisher {
         this.messageQueue = messageQueue;
     }
 
-    void publish(String message){
-        messageQueue.addMessage(message);
+    void publish(String topic, String message){
+        messageQueue.addMessage(topic, message);
     }
 }

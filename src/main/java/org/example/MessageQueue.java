@@ -1,30 +1,49 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MessageQueue {
-    List<Subscriber> subscribers;
-    List<String> messages;
+    Map<String, List<Subscriber>> subscribersByTopic;
+    Map<String, List<String>> messagesByTopic;
 
     public MessageQueue(){
-        subscribers = new ArrayList<>();
-        messages = new ArrayList<>();
+        subscribersByTopic = new HashMap<>();
+        messagesByTopic = new HashMap<>();
     }
 
-    void addSubscriber(Subscriber subscriber){
-        subscribers.add(subscriber);
+    void addSubscriber(String topic, Subscriber subscriber){
+        if(subscribersByTopic.containsKey(topic))
+        {
+            List<Subscriber> subscriberList = subscribersByTopic.get(topic);
+            subscriberList.add(subscriber);
+        }
+        else{
+            List<Subscriber> subscriberList = new ArrayList<>();
+            subscriberList.add(subscriber);
+            subscribersByTopic.put(topic, subscriberList);
+        }
     }
 
-    void addMessage(String message){
-        messages.add(message);
-        notifySubscribers();
+    void addMessage(String topic, String message){
+        if(messagesByTopic.containsKey(topic)) {
+            List<String> messageList = messagesByTopic.get(topic);
+            messageList.add(message);
+        }
+        else{
+            List<String> messageList = new ArrayList<>();
+            messageList.add(message);
+            messagesByTopic.put(topic, messageList);
+        }
+        notifySubscribers(topic, message);
     }
 
-    private void notifySubscribers() {
-        for (Subscriber subscriber : subscribers) {
-            subscriber.receiveMessage(messages.get(messages.size() - 1));
+    private void notifySubscribers(String topic, String message) {
+        for (Subscriber subscriber : subscribersByTopic.get(topic)) {
+            subscriber.receiveMessage(topic, message);
         }
     }
 }
